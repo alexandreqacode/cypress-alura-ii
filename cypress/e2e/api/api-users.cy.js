@@ -49,4 +49,19 @@ describe('Realizando requisisções para a API', () => {
         cy.getByData('titulo-boas-vindas').should('contain.text', 'Bem vindo de volta!')
     })
   })
+
+  context('Realizando login via API', ()=>{
+    it('Deve permitir login do usuário Alexandre', ()=>{
+        cy.request({
+            method: 'POST',
+            url: 'http://localhost:8000/users/login',
+            body:Cypress.env(),
+        }).then((response)=>{
+            expect(response.status).to.eq(200)
+            expect(response.body).is.not.empty
+            expect(response.body.user).to.have.property('nome')
+            expect(response.body.user.nome).to.be.equal('Alexandre Alves')
+        })
+    })
+  })
 });
